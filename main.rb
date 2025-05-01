@@ -37,7 +37,28 @@ def create_models
   puts "---"
 
   # Load the model files
-  puts "TODO: Load the model files here"
+  require_relative "employee"
+
+  # test the model
+  employee = Employee.new
+  employee.name = "John Doe"
+  employee.position = Employee.positions[0]
+  employee.salary = 60000
+  employee.age = 30
+  puts "Employee created: #{employee.name}, Position: #{employee.position}, Salary: #{employee.salary}, Age: #{employee.age}"
+  puts "Validations passed: #{employee.valid?}"
+  puts "Errors: #{employee.errors.full_messages.join(", ")}" unless employee.valid?
+  employee.save if employee.valid?
+  puts "Employee saved to database."
+  puts ActiveRecord::Base.connection.tables.inspect
+  puts "Employee ID: #{employee.id}" if employee.persisted?
+  employee_found = Employee.find_by(name: "John Doe")
+  if employee_found
+    puts "Employee found: #{employee_found.name}, Position: #{employee_found.position}, Salary: #{employee_found.salary}, Age: #{employee_found.age}"
+  else
+    puts "Employee not found."
+  end
+  employee_found&.delete
 
   puts "---"
 end
