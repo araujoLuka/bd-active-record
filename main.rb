@@ -110,6 +110,9 @@ end
 
 loop do
   input = Readline.readline("> ", true) # Enable history
+
+  break if input.nil? || input.strip.empty?
+
   command, table, *attributes = input.split
 
   case command
