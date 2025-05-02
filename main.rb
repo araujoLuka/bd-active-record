@@ -60,7 +60,7 @@ def insert_command(table, attributes)
     puts "Tabela não reconhecida: #{table}. Tente 'employees', 'enterprises' ou 'projects'."
   end
 rescue => e
-  puts "An error occurred: #{e.message}"
+  puts "An error occurred: #{table}: #{e.message}"
 end
 
 def update_command(table, id, attributes)
@@ -75,7 +75,7 @@ def update_command(table, id, attributes)
     puts "Tabela não reconhecida: #{table}. Tente 'employees', 'enterprises' ou 'projects'."
   end
 rescue => e
-  puts "An error occurred: #{e.message}"
+  puts "An error occurred: #{table}: #{e.message}"
 end
 
 def delete_command(table, id)
@@ -90,7 +90,7 @@ def delete_command(table, id)
     puts "Tabela não reconhecida: #{table}. Tente 'employees', 'enterprises' ou 'projects'."
   end
 rescue => e
-  puts "An error occurred: #{e.message}"
+  puts "An error occurred: #{table}: #{e.message}"
 end
 
 def list_command(table)
@@ -105,7 +105,7 @@ def list_command(table)
     puts "Tabela não reconhecida: #{table}. Tente 'employees', 'enterprises' ou 'projects'."
   end
 rescue => e
-  puts "An error occurred: #{e.message}"
+  puts "An error occurred: #{table}: #{e.message}"
 end
 
 loop do
