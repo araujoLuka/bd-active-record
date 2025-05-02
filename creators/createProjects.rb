@@ -11,11 +11,11 @@ TABLE_PROJECTS = :projects
 # Create the 'projects' table
 begin
   ActiveRecord::Base.connection.create_table TABLE_PROJECTS do |t|
-    t.string :title
+    t.string :name
     t.text :description
     t.date :start_date
-    t.date :end_date
-    t.integer :enterprise_id
+    t.date :deadline
+    t.references :enterprise, foreign_key: true
   end
   puts "Table '#{TABLE_PROJECTS}' created with columns: title, description, start_date, end_date, enterprise_id."
 rescue ActiveRecord::StatementInvalid

@@ -12,8 +12,8 @@ class Employee < ActiveRecord::Base
   attribute :salary, :decimal, default: 1000.0
 
   # Associations
-  has_many :employees_projects
-  has_many :projects, through: :employees_projects
+  belongs_to :enterprise
+  has_and_belongs_to_many :projects
 
   # Validations
   validates :name, presence: true
@@ -24,12 +24,10 @@ class Employee < ActiveRecord::Base
   # Positions for employees
   @@positions = [
     "Unknown",
-    "Software Engineer",
-    "Data Scientist",
-    "Project Manager",
-    "UX Designer",
-    "DevOps Engineer",
-    "Business Analyst"
+    "Developer",
+    "Manager",
+    "Analyst",
+    "Designer"
   ]
 
   # Getter for employee positions
@@ -42,7 +40,7 @@ class Employee < ActiveRecord::Base
   # Validate the position
   def validate_position
     unless @@positions.include?(position)
-      errors.add(:position, "is not a valid position.")
+      errors.add(position, "is not a valid position.")
     end
   end
 end
@@ -84,7 +82,7 @@ end
 
 def delete_employee(id)
   employee = Employee.find(id)
-  if employee.delete
+  if employee.destroy
     puts "Employee deleted successfully: #{employee.attributes}"
   else
     puts "Error deleting employee."
@@ -96,13 +94,27 @@ rescue => e
 end
 
 def list_employees
-  employees = Employee.all
+  puts "Listing all employees..."
+  employees = Employee.includes(:projects, :enterprise).all
   if employees.any?
     employees.each do |employee|
-      puts "ID: #{employee.id}, Name: #{employee.name}, Position: #{employee.position}, Salary: #{employee.salary}"
+      puts "  ID: #{employee.id}, Name: #{employee.name}, Position: #{employee.position}, Salary: #{employee.salary}"
+      if employee.enterprise
+        puts "  Enterprise: #{employee.enterprise.name}, Location: #{employee.enterprise.location}"
+      else
+        puts "    No associated enterprise."
+      end
+      if employee.projects.any?
+        puts "  Projects:"
+        employee.projects.each do |project|
+          puts "    - Project ID: #{project.id}, Name: #{project.name}, Deadline: #{project.deadline}"
+        end
+      else
+        puts "    No associated projects."
+      end
     end
   else
-    puts "No employees found."
+    puts "  No employees found."
   end
 end
 
