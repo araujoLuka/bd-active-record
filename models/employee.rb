@@ -24,12 +24,10 @@ class Employee < ActiveRecord::Base
   # Positions for employees
   @@positions = [
     "Unknown",
-    "Software Engineer",
-    "Data Scientist",
-    "Project Manager",
-    "UX Designer",
-    "DevOps Engineer",
-    "Business Analyst"
+    "Developer",
+    "Manager",
+    "Analyst",
+    "Designer"
   ]
 
   # Getter for employee positions
@@ -42,7 +40,7 @@ class Employee < ActiveRecord::Base
   # Validate the position
   def validate_position
     unless @@positions.include?(position)
-      errors.add(:position, "is not a valid position.")
+      errors.add(position, "is not a valid position.")
     end
   end
 end
