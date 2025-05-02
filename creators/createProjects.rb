@@ -15,7 +15,7 @@ begin
     t.text :description
     t.date :start_date
     t.date :end_date
-    t.integer :enterprise_id
+    t.references :enterprise, foreign_key: true
   end
   puts "Table '#{TABLE_PROJECTS}' created with columns: title, description, start_date, end_date, enterprise_id."
 rescue ActiveRecord::StatementInvalid

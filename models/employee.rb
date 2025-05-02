@@ -12,8 +12,8 @@ class Employee < ActiveRecord::Base
   attribute :salary, :decimal, default: 1000.0
 
   # Associations
-  has_many :employees_projects
-  has_many :projects, through: :employees_projects
+  belongs_to :enterprise
+  has_and_belongs_to_many :projects
 
   # Validations
   validates :name, presence: true
@@ -96,10 +96,23 @@ rescue => e
 end
 
 def list_employees
-  employees = Employee.all
+  employees = Employee.includes(:projects, :enterprise).all
   if employees.any?
     employees.each do |employee|
       puts "ID: #{employee.id}, Name: #{employee.name}, Position: #{employee.position}, Salary: #{employee.salary}"
+      if employee.enterprise
+        puts "  Enterprise: #{employee.enterprise.name}, Location: #{employee.enterprise.location}"
+      else
+        puts "  No associated enterprise."
+      end
+      if employee.projects.any?
+        puts "  Projects:"
+        employee.projects.each do |project|
+          puts "    - Project ID: #{project.id}, Title: #{project.title}, Budget: #{project.budget}"
+        end
+      else
+        puts "  No associated projects."
+      end
     end
   else
     puts "No employees found."
