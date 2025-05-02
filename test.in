@@ -1,0 +1,16 @@
+insere enterprises name="Tech Corp" location="New York"
+insere enterprises name="Innovate LLC" location="San Francisco"
+insere employees name="John Doe" age=32 position="Developer" salary=60000 enterprise_id=1
+insere employees name="Jane Smith" age=22 position="Manager" salary=80000 enterprise_id=1
+insere employees name="Alice Johnson" age=15 position="Designer" salary=55000 enterprise_id=2
+insere employees name="Bob Brown" age=55 position="Analyst" salary=50000 enterprise_id=2
+insere projects name="Project Alpha" description="Description for Alpha" start_date="2023-01-01" deadline="2023-12-31" enterprise_id=1 employee_ids=1
+insere projects name="Project Beta" description="Description for Beta" start_date="2023-02-01" deadline="2024-06-30" enterprise_id=1 employee_ids=3,4
+insere projects name="Project Gamma" description="Description for Gamma" start_date="2023-03-01" deadline="2024-01-15" enterprise_id=2 employee_ids=1,2
+insere projects name="Project Delta" description="Description for Delta" start_date="2023-04-01" deadline="2024-05-20" enterprise_id=2 employee_ids=1,3,4
+lista enterprises
+altera employees id=1 salary=65000
+exclui projects id=4
+lista enterprises
+exclui enterprises id=2
+lista enterprises
