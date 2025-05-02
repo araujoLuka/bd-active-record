@@ -27,8 +27,6 @@ def insert_project(attributes)
   else
     puts "Error creating project: #{project.errors.full_messages.join(", ")}"
   end
-rescue => e
-  puts "An error occurred: #{e.message}"
 end
 
 def update_project(id, attributes)
@@ -44,9 +42,7 @@ def update_project(id, attributes)
     puts "Error updating project: #{project.errors.full_messages.join(", ")}"
   end
 rescue ActiveRecord::RecordNotFound
-  puts "Project not found."
-rescue => e
-  puts "An error occurred: #{e.message}"
+  puts "ERROR: Project not found."
 end
 
 def delete_project(id)
@@ -57,9 +53,7 @@ def delete_project(id)
     puts "Error deleting project."
   end
 rescue ActiveRecord::RecordNotFound
-  puts "Project not found."
-rescue => e
-  puts "An error occurred: #{e.message}"
+  puts "ERROR: Project not found."
 end
 
 def list_projects
