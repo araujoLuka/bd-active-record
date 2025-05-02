@@ -7,8 +7,8 @@ class Enterprise < ActiveRecord::Base
   attribute :location, :string, default: "Unknown Location"
 
   # Associations
-  has_many :projects
-  has_many :employees
+  has_many :projects, dependent: :destroy
+  has_many :employees, dependent: :destroy
 
   # Validations
   validates :name, presence: true
