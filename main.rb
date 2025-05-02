@@ -3,10 +3,7 @@ require "rubygems"
 require "active_record"
 
 # Establish connection to the database
-ActiveRecord::Base.establish_connection(
-  adapter: "sqlite3",
-  database: "db/active_record.sqlite3"
-)
+require_relative "database/databaseConnection"
 
 # Method to print table names and columns in aligned format
 def print_tables_info
@@ -18,31 +15,28 @@ end
 
 def create_tables
   puts "[1] Creating database tables..."
-  puts "---"
 
   # Load the create files
-  require_relative "createEnterprises"
-  require_relative "createEmployees"
-  require_relative "createProjects"
-  require_relative "createEmployeesProjects"
+  require_relative "creators/createEnterprises"
+  require_relative "creators/createEmployees"
+  require_relative "creators/createProjects"
+  require_relative "creators/createEmployeesProjects"
 
   puts "\nSuccessfully created tables:"
   print_tables_info
-
-  puts "---"
 end
 
-def create_models
-  puts "\n[2] Creating models..."
-  puts "---"
+def load_models
+  puts "\n[2] Loading models..."
 
   # Load the model files
-  puts "TODO: Load the model files here"
+  require_relative "models/employee"
 
-  puts "---"
+  puts "\nSuccessfully loaded models:"
+  puts format("> %-20s %s", "Employee", Employee.columns.map(&:name).join(", "))
 end
 
 create_tables
-create_models
+load_models
 
 puts "\nProgram completed successfully."
