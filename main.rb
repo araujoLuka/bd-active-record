@@ -3,10 +3,7 @@ require "rubygems"
 require "active_record"
 
 # Establish connection to the database
-ActiveRecord::Base.establish_connection(
-  adapter: "sqlite3",
-  database: "db/active_record.sqlite3"
-)
+require_relative "database/databaseConnection"
 
 # Method to print table names and columns in aligned format
 def print_tables_info
@@ -18,52 +15,28 @@ end
 
 def create_tables
   puts "[1] Creating database tables..."
-  puts "---"
 
   # Load the create files
-  require_relative "createEnterprises"
-  require_relative "createEmployees"
-  require_relative "createProjects"
-  require_relative "createEmployeesProjects"
+  require_relative "creators/createEnterprises"
+  require_relative "creators/createEmployees"
+  require_relative "creators/createProjects"
+  require_relative "creators/createEmployeesProjects"
 
   puts "\nSuccessfully created tables:"
   print_tables_info
-
-  puts "---"
 end
 
-def create_models
-  puts "\n[2] Creating models..."
-  puts "---"
+def load_models
+  puts "\n[2] Loading models..."
 
   # Load the model files
-  require_relative "employee"
+  require_relative "models/employee"
 
-  # test the model
-  employee = Employee.new
-  employee.name = "John Doe"
-  employee.position = Employee.positions[0]
-  employee.salary = 60000
-  employee.age = 30
-  puts "Employee created: #{employee.name}, Position: #{employee.position}, Salary: #{employee.salary}, Age: #{employee.age}"
-  puts "Validations passed: #{employee.valid?}"
-  puts "Errors: #{employee.errors.full_messages.join(", ")}" unless employee.valid?
-  employee.save if employee.valid?
-  puts "Employee saved to database."
-  puts ActiveRecord::Base.connection.tables.inspect
-  puts "Employee ID: #{employee.id}" if employee.persisted?
-  employee_found = Employee.find_by(name: "John Doe")
-  if employee_found
-    puts "Employee found: #{employee_found.name}, Position: #{employee_found.position}, Salary: #{employee_found.salary}, Age: #{employee_found.age}"
-  else
-    puts "Employee not found."
-  end
-  employee_found&.delete
-
-  puts "---"
+  puts "\nSuccessfully loaded models:"
+  puts format("> %-20s %s", "Employee", Employee.columns.map(&:name).join(", "))
 end
 
 create_tables
-create_models
+load_models
 
 puts "\nProgram completed successfully."
