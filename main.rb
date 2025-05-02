@@ -31,6 +31,8 @@ def load_models
 
   # Load the model files
   require_relative "models/employee"
+  require_relative "models/enterprise"
+  require_relative "models/project"
 
   puts "\nSuccessfully loaded models:"
   puts format("> %-20s %s", "Employee", Employee.columns.map(&:name).join(", "))
@@ -46,6 +48,66 @@ require "readline"
 puts "\n[3] Entering console mode..."
 puts "Type 'help' for a list of commands."
 
+def insert_command(table, attributes)
+  case table
+  when "employees"
+    insert_employee(attributes)
+  when "enterprises"
+    insert_enterprise(attributes)
+  when "projects"
+    insert_project(attributes)
+  else
+    puts "Tabela não reconhecida: #{table}. Tente 'employees', 'enterprises' ou 'projects'."
+  end
+rescue => e
+  puts "An error occurred: #{e.message}"
+end
+
+def update_command(table, id, attributes)
+  case table
+  when "employees"
+    update_employee(id, attributes)
+  when "enterprises"
+    update_enterprise(id, attributes)
+  when "projects"
+    update_project(id, attributes)
+  else
+    puts "Tabela não reconhecida: #{table}. Tente 'employees', 'enterprises' ou 'projects'."
+  end
+rescue => e
+  puts "An error occurred: #{e.message}"
+end
+
+def delete_command(table, id)
+  case table
+  when "employees"
+    delete_employee(id)
+  when "enterprises"
+    delete_enterprise(id)
+  when "projects"
+    delete_project(id)
+  else
+    puts "Tabela não reconhecida: #{table}. Tente 'employees', 'enterprises' ou 'projects'."
+  end
+rescue => e
+  puts "An error occurred: #{e.message}"
+end
+
+def list_command(table)
+  case table
+  when "employees"
+    list_employees
+  when "enterprises"
+    list_enterprises
+  when "projects"
+    list_projects
+  else
+    puts "Tabela não reconhecida: #{table}. Tente 'employees', 'enterprises' ou 'projects'."
+  end
+rescue => e
+  puts "An error occurred: #{e.message}"
+end
+
 loop do
   input = Readline.readline("> ", true) # Enable history
   command, table, *attributes = input.split
@@ -53,26 +115,23 @@ loop do
   case command
   when "help"
     puts "Available commands:"
-    puts "  insere  <tabela> { atributo=valor }  - Insert a new record"
-    puts "  altera  <tabela> { atributo=valor }  - Update an existing record"
-    puts "  exclui  <tabela> id                  - Delete a record"
-    puts "  lista   <tabela>                     - List records in a table"
-    puts ""
-    # Remember the user that the database information needed are already printed before
-    puts "The needed database information is already printed above."
-    puts "Check them out to know the tables and their attributes."
+    puts "  insere <tabela> { atributo = valor } - Insert a new record"
+    puts "  altera <tabela> id { atributo = valor } - Update an existing record"
+    puts "  exclui <tabela> id - Delete a record"
+    puts "  lista <tabela> - List records in a table"
+    puts "  exit - Exit the console"
   when "insere"
-    puts "Inserindo em #{table}: #{attributes.join(", ")}"
-    insert_employee(attributes)
+    insert_command(table, attributes)
   when "altera"
-    puts "Alterando em #{table}: #{attributes.join(", ")}"
-    update_employee(attributes)
+    id = attributes.shift
+    update_command(table, id, attributes)
   when "exclui"
-    puts "Excluindo de #{table}: #{attributes.join(", ")}"
-    delete_employee(*attributes)
+    id = attributes.shift
+    delete_command(table, id)
   when "lista"
-    puts "Listando #{table}"
-    list_employees
+    list_command(table)
+  when "exit"
+    break
   else
     puts "Comando inválido"
   end
