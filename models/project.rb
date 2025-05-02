@@ -57,7 +57,7 @@ rescue ActiveRecord::RecordNotFound
 end
 
 def list_projects
-  puts "Listing all projects in the database:"
+  puts "Listing all projects..."
   projects = Project.all
   if projects.any?
     projects.each do |project|
