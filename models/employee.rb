@@ -7,19 +7,23 @@ require_relative "../database/databaseConnection"
 
 # Model definition for Employee
 class Employee < ActiveRecord::Base
+  # Default values for attributes
+  attribute :position, :string, default: "Unknown"
+  attribute :salary, :decimal, default: 1000.0
+
   # Associations
   has_many :employees_projects
   has_many :projects, through: :employees_projects
 
   # Validations
   validates :name, presence: true
-  validates :position, presence: true
   validates :salary, numericality: {greater_than: 0}
   validates :age, numericality: {only_integer: true, greater_than: 0}
   validate :validate_position
 
   # Positions for employees
   @@positions = [
+    "Unknown",
     "Software Engineer",
     "Data Scientist",
     "Project Manager",
@@ -41,6 +45,23 @@ class Employee < ActiveRecord::Base
       errors.add(:position, "is not a valid position.")
     end
   end
+end
+
+def insert_employee(attributes)
+  # Convert attributes to a hash
+  attribute_hash = attributes.each_with_object({}) do |attr, hash|
+    key, value = attr.split("=")
+    hash[key] = value.tr('"', "") # Remove quotes from value
+  end
+
+  employee = Employee.new(attribute_hash)
+  if employee.save
+    puts "Employee created successfully: #{employee.attributes}"
+  else
+    puts "Error creating employee: #{employee.errors.full_messages.join(", ")}"
+  end
+rescue => e
+  puts "An error occurred: #{e.message}"
 end
 
 puts "Employee model loaded successfully."
