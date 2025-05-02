@@ -39,4 +39,40 @@ end
 create_tables
 load_models
 
-puts "\nProgram completed successfully."
+puts "\nInitialization completed successfully."
+
+require "readline"
+
+puts "\n[3] Entering console mode..."
+puts "Type 'help' for a list of commands."
+
+loop do
+  input = Readline.readline("> ", true) # Enable history
+  command, table, *attributes = input.split
+
+  case command
+  when "help"
+    puts "Available commands:"
+    puts "  insere <tabela> { atributo = valor } - Insert a new record"
+    puts "  altera <tabela> { atributo = valor } - Update an existing record"
+    puts "  exclui <tabela> { atributo = valor } - Delete a record"
+    puts "  lista <tabela> - List records in a table"
+    puts ""
+    # Remember the user that the database information needed are already printed before
+    puts "The needed database information is already printed above."
+    puts "Check them out to know the tables and their attributes."
+  when "insere"
+    puts "Inserindo em #{table}: #{attributes.join(", ")}"
+    insert_employee(attributes)
+  when "altera"
+    puts "Alterando em #{table}: #{attributes.join(", ")}"
+  when "exclui"
+    puts "Excluindo de #{table}: #{attributes.join(", ")}"
+  when "lista"
+    puts "Listando #{table}"
+  else
+    puts "Comando inválido"
+  end
+end
+
+puts "\nExiting console mode. Goodbye!"
