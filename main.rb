@@ -115,6 +115,20 @@ loop do
 
   command, table, *attributes = input.split
 
+  # Processes attributes that may contain whitespace (e.g., "name=\"John Doe\"").
+  # The goal is to avoid splitting these attributes, as they should be treated as a single unit.
+  # If the item does not contain '=', it will be combined with the previous attribute.
+  new_attributes = []
+  attributes.each do |attr|
+    if attr.include?("=")
+      key, value = attr.split("=")
+      new_attributes << "#{key}=#{value.tr('"', "")}" # Remove quotes from value
+    elsif new_attributes.any?
+      new_attributes[-1] = "#{new_attributes.last} #{attr}"
+    end
+  end
+  attributes.replace(new_attributes)
+
   case command
   when "help"
     puts "Available commands:"
