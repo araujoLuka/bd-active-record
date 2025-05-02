@@ -3,10 +3,7 @@ require "rubygems"
 require "active_record"
 
 # Establish connection to the database
-ActiveRecord::Base.establish_connection(
-  adapter: "sqlite3",
-  database: "db/active_record.sqlite3"
-)
+require_relative "../database/databaseConnection"
 
 # Model definition for Employee
 class Employee < ActiveRecord::Base
@@ -45,3 +42,5 @@ class Employee < ActiveRecord::Base
     end
   end
 end
+
+puts "Employee model loaded successfully."
