@@ -23,7 +23,7 @@ def insert_project(attributes)
 
   project = Project.new(attribute_hash)
   if project.save
-    puts "Project created successfully."
+    puts "Project created successfully: #{project.attributes}"
   else
     puts "Error creating project: #{project.errors.full_messages.join(", ")}"
   end
@@ -39,7 +39,7 @@ def update_project(id, attributes)
   end
 
   if project.update(attribute_hash)
-    puts "Project updated successfully."
+    puts "Project updated successfully: #{project.attributes}"
   else
     puts "Error updating project: #{project.errors.full_messages.join(", ")}"
   end
@@ -52,7 +52,7 @@ end
 def delete_project(id)
   project = Project.find(id)
   if project.destroy
-    puts "Project deleted successfully."
+    puts "Project deleted successfully: #{project.attributes}"
   else
     puts "Error deleting project."
   end
@@ -63,9 +63,11 @@ rescue => e
 end
 
 def list_projects
+  puts "Listing all projects in the database:"
   projects = Project.all
   if projects.any?
     projects.each do |project|
+      puts "  ID: %-5s Name: %-20s Start Date: %-15s Deadline: %-15s Description: %s" % [project.id, project.name, project.start_date, project.deadline, project.description]
     end
   else
     puts "No projects found."
