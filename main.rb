@@ -53,10 +53,10 @@ loop do
   case command
   when "help"
     puts "Available commands:"
-    puts "  insere <tabela> { atributo = valor } - Insert a new record"
-    puts "  altera <tabela> { atributo = valor } - Update an existing record"
-    puts "  exclui <tabela> { atributo = valor } - Delete a record"
-    puts "  lista <tabela> - List records in a table"
+    puts "  insere  <tabela> { atributo=valor }  - Insert a new record"
+    puts "  altera  <tabela> { atributo=valor }  - Update an existing record"
+    puts "  exclui  <tabela> id                  - Delete a record"
+    puts "  lista   <tabela>                     - List records in a table"
     puts ""
     # Remember the user that the database information needed are already printed before
     puts "The needed database information is already printed above."
@@ -66,10 +66,13 @@ loop do
     insert_employee(attributes)
   when "altera"
     puts "Alterando em #{table}: #{attributes.join(", ")}"
+    update_employee(attributes)
   when "exclui"
     puts "Excluindo de #{table}: #{attributes.join(", ")}"
+    delete_employee(*attributes)
   when "lista"
     puts "Listando #{table}"
+    list_employees
   else
     puts "Comando inválido"
   end
