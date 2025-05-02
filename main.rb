@@ -145,11 +145,21 @@ loop do
   when "insere"
     insert_command(table, attributes)
   when "altera"
-    id = attributes.shift
-    update_command(table, id, attributes)
+    if attributes[0].include?("id=") == false
+      puts "ERROR: Missing id=valor in the command."
+    else
+      id = attributes[0].split("=")[1]
+      attributes.shift # Remove the id attribute from the list
+      update_command(table, id, attributes)
+    end
   when "exclui"
-    id = attributes.shift
-    delete_command(table, id)
+    if attributes[0].include?("id=") == false
+      puts "ERROR: Missing id=valor in the command."
+    else
+      id = attributes[0].split("=")[1]
+      attributes.shift # Remove the id attribute from the list
+      delete_command(table, id)
+    end
   when "lista"
     list_command(table)
   when "exit"
