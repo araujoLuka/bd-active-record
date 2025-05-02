@@ -27,8 +27,6 @@ def insert_enterprise(attributes)
   else
     puts "Error creating enterprise: #{enterprise.errors.full_messages.join(", ")}"
   end
-rescue => e
-  puts "An error occurred: #{e.message}"
 end
 
 def update_enterprise(id, attributes)
@@ -44,9 +42,7 @@ def update_enterprise(id, attributes)
     puts "Error updating enterprise: #{enterprise.errors.full_messages.join(", ")}"
   end
 rescue ActiveRecord::RecordNotFound
-  puts "Enterprise not found."
-rescue => e
-  puts "An error occurred: #{e.message}"
+  puts "ERROR: Enterprise not found."
 end
 
 def delete_enterprise(id)
@@ -57,9 +53,7 @@ def delete_enterprise(id)
     puts "Error deleting enterprise."
   end
 rescue ActiveRecord::RecordNotFound
-  puts "Enterprise not found."
-rescue => e
-  puts "An error occurred: #{e.message}"
+  puts "ERROR: Enterprise not found."
 end
 
 def list_enterprises
