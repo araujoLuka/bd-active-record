@@ -94,26 +94,27 @@ rescue => e
 end
 
 def list_employees
+  puts "Listing all employees..."
   employees = Employee.includes(:projects, :enterprise).all
   if employees.any?
     employees.each do |employee|
-      puts "ID: #{employee.id}, Name: #{employee.name}, Position: #{employee.position}, Salary: #{employee.salary}"
+      puts "  ID: #{employee.id}, Name: #{employee.name}, Position: #{employee.position}, Salary: #{employee.salary}"
       if employee.enterprise
         puts "  Enterprise: #{employee.enterprise.name}, Location: #{employee.enterprise.location}"
       else
-        puts "  No associated enterprise."
+        puts "    No associated enterprise."
       end
       if employee.projects.any?
         puts "  Projects:"
         employee.projects.each do |project|
-          puts "    - Project ID: #{project.id}, Title: #{project.title}, Budget: #{project.budget}"
+          puts "    - Project ID: #{project.id}, Name: #{project.name}, Deadline: #{project.deadline}"
         end
       else
-        puts "  No associated projects."
+        puts "    No associated projects."
       end
     end
   else
-    puts "No employees found."
+    puts "  No employees found."
   end
 end
 
