@@ -2,14 +2,11 @@
 require "rubygems"
 require "active_record"
 
+# Establish connection to the database
+require_relative "../database/databaseConnection"
+
 # Define constants
 TABLE_ENTERPRISES = :enterprises
-
-# Establish connection to the database
-ActiveRecord::Base.establish_connection(
-  adapter: "sqlite3",
-  database: "db/active_record.sqlite3"
-)
 
 # Create the 'enterprises' table
 begin
