@@ -82,7 +82,7 @@ end
 
 def delete_employee(id)
   employee = Employee.find(id)
-  if employee.delete
+  if employee.destroy
     puts "Employee deleted successfully: #{employee.attributes}"
   else
     puts "Error deleting employee."
