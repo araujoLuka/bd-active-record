@@ -12,5 +12,10 @@ lista enterprises
 altera employees id=1 salary=65000
 exclui projects id=4
 lista enterprises
+lista employees
+lista projects
+exclui employees id=1
 exclui enterprises id=2
 lista enterprises
+lista employees
+lista projects
