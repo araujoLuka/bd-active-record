@@ -3,16 +3,16 @@ require "active_record"
 
 class Project < ActiveRecord::Base
   # Default values for attributes
-  attribute :title, :string, default: "Untitled Project"
-  attribute :budget, :decimal, default: 1000.0
+  attribute :name, :string, default: "Untitled Project"
+  attribute :description, :string, default: "No description provided"
+  attribute :start_date, :date, default: Date.today
 
   # Associations
   belongs_to :enterprise
   has_and_belongs_to_many :employees
 
   # Validations
-  validates :title, presence: true
-  validates :budget, numericality: {greater_than: 0}
+  validates :deadline, presence: true
 end
 
 def insert_project(attributes)
@@ -66,7 +66,6 @@ def list_projects
   projects = Project.all
   if projects.any?
     projects.each do |project|
-      puts "ID: #{project.id}, Title: #{project.title}, Budget: #{project.budget}"
     end
   else
     puts "No projects found."
